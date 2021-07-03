@@ -1,12 +1,24 @@
 use std::sync::Arc;
 
-use reqwest::{redirect::Policy, Response, StatusCode};
-
-use crate::{campaign::CampaignBuilder, user::UserBuilder};
 use anyhow::anyhow;
+use reqwest::{redirect::Policy, Response, StatusCode};
+use serde::Deserialize;
 use serde_json::Value;
 
-static API_ROOT: &'static str = "https://tiltify.com/api/v3/";
+use crate::{campaign::CampaignBuilder, user::UserBuilder};
+
+pub(crate) static API_HOST: &'static str = "https://tiltify.com";
+
+#[derive(Deserialize, Debug)]
+pub(crate) struct ResponseMeta {
+    status: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub(crate) struct ClientResponse<T> {
+    meta: ResponseMeta,
+    pub(crate) data: T,
+}
 
 pub(crate) struct ClientInner {
     access_token: String,
@@ -28,14 +40,22 @@ impl ClientInner {
         })
     }
 
-    pub(crate) async fn get(&self, endpoint: &str) -> crate::Result<Response> {
-        let url = format!("{}{}", API_ROOT, endpoint);
-        let response = self
+    pub(crate) async fn get(
+        &self,
+        endpoint: &str,
+        query: Option<&[(&str, &str)]>,
+    ) -> crate::Result<Response> {
+        let url = format!("{}{}", API_HOST, endpoint);
+        let mut builder = self
             .client
             .get(url)
-            .header("Authorization", format!("Bearer {}", &self.access_token))
-            .send()
-            .await?;
+            .header("Authorization", format!("Bearer {}", &self.access_token));
+
+        if let Some(query) = query {
+            builder = builder.query(query);
+        }
+
+        let response = builder.send().await?;
 
         match response.status() {
             StatusCode::OK => Ok(response),

@@ -4,24 +4,24 @@ use anyhow::anyhow;
 use clap::{App, AppSettings, Arg};
 
 struct MyArgs {
-    user_id: String,
+    campaign_id: String,
 }
 
 fn get_args() -> tiltify::Result<MyArgs> {
-    let args = App::new("get-user-campaigns")
+    let args = App::new("get-campaign")
         .setting(AppSettings::DisableVersion)
         .arg(
-            Arg::with_name("user-id")
-                .long("user-id")
+            Arg::with_name("campaign-id")
+                .long("campaign-id")
                 .required(true)
                 .takes_value(true),
         )
         .get_matches();
 
     Ok(MyArgs {
-        user_id: args
-            .value_of("user-id")
-            .ok_or(anyhow!("Invalid user-id"))?
+        campaign_id: args
+            .value_of("campaign-id")
+            .ok_or(anyhow!("Invalid campaign-id"))?
             .into(),
     })
 }
@@ -40,9 +40,8 @@ async fn main() -> tiltify::Result<()> {
     let args = get_args()?;
 
     let client = tiltify::client::TiltifyClient::new(token)?;
-    for campaign in &client.user(args.user_id).campaigns().await? {
-        println!("{}, {}, {}", campaign.id, campaign.name, campaign.slug);
-    }
 
+    let campaign = client.campaign(args.campaign_id).get().await?;
+    dbg!(campaign);
     Ok(())
 }

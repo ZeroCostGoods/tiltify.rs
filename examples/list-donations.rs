@@ -40,7 +40,21 @@ async fn main() -> tiltify::Result<()> {
     let args = get_args()?;
 
     let client = tiltify::client::TiltifyClient::new(token)?;
-    dbg!(client.campaign(args.campaign_id).donations().await?);
+
+    let mut pager = client.campaign(args.campaign_id).donations().await?;
+    loop {
+        for donation in &pager.data {
+            println!(
+                "{}, {}, {}, {:?}",
+                donation.id, donation.amount, &donation.name, &donation.comment
+            );
+        }
+
+        pager = match pager.prev().await? {
+            Some(pager) => pager,
+            None => break,
+        };
+    }
 
     Ok(())
 }

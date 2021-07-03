@@ -1,5 +1,6 @@
 mod campaign;
 pub mod client;
+mod paginator;
 mod user;
 
 pub type Error = anyhow::Error;

@@ -8,7 +8,7 @@ struct MyArgs {
 }
 
 fn get_args() -> tiltify::Result<MyArgs> {
-    let args = App::new("get-user-campaigns")
+    let args = App::new("get-user")
         .setting(AppSettings::DisableVersion)
         .arg(
             Arg::with_name("user-id")
@@ -40,9 +40,7 @@ async fn main() -> tiltify::Result<()> {
     let args = get_args()?;
 
     let client = tiltify::client::TiltifyClient::new(token)?;
-    for campaign in &client.user(args.user_id).campaigns().await? {
-        println!("{}, {}, {}", campaign.id, campaign.name, campaign.slug);
-    }
+    dbg!(client.user(args.user_id).get().await?);
 
     Ok(())
 }
