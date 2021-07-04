@@ -50,7 +50,7 @@ pub struct Campaign {
     pub starts_at: u64,
 
     #[serde(rename = "endsAt")]
-    pub ends_at: u64,
+    pub ends_at: Option<u64>,
 
     #[serde(rename = "fundraiserGoalAmount")]
     pub fundraiser_goal_amount: f64,
