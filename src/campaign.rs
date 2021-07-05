@@ -1,8 +1,12 @@
 use std::sync::Arc;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use crate::{client::{ClientInner, ClientResponse}, paginator::Paginator, user::UserSummary};
+use crate::{
+    client::{ClientInner, ClientResponse},
+    paginator::Paginator,
+    user::UserSummary,
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Donation {
@@ -73,7 +77,12 @@ impl CampaignBuilder {
 
     pub async fn get(&self) -> crate::Result<Campaign> {
         let url = format!("/api/v3/campaigns/{}", &self.campaign_id);
-        let response = self.client.get(&url, None).await?.json::<ClientResponse<Campaign>>().await?;
+        let response = self
+            .client
+            .get(&url, None)
+            .await?
+            .json::<ClientResponse<Campaign>>()
+            .await?;
         Ok(response.data)
     }
 

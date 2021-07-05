@@ -1,8 +1,11 @@
 use std::sync::Arc;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use crate::{campaign::Campaign, client::{ClientInner, ClientResponse}};
+use crate::{
+    campaign::Campaign,
+    client::{ClientInner, ClientResponse},
+};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Avatar {
@@ -68,7 +71,12 @@ impl UserBuilder {
 
     pub async fn campaigns(&self) -> crate::Result<Vec<Campaign>> {
         let url = format!("/api/v3/users/{}/campaigns", &self.user_id);
-        let response = self.client.get(&url, None).await?.json::<ClientResponse<Vec<Campaign>>>().await?;
+        let response = self
+            .client
+            .get(&url, None)
+            .await?
+            .json::<ClientResponse<Vec<Campaign>>>()
+            .await?;
         Ok(response.data)
     }
 }
