@@ -6,43 +6,43 @@ use crate::{campaign::Campaign, client::{ClientInner, ClientResponse}};
 
 #[derive(Deserialize, Debug)]
 pub struct Avatar {
-    alt: String,
-    src: String,
-    height: u64,
-    width: u64,
+    pub alt: String,
+    pub src: String,
+    pub height: u64,
+    pub width: u64,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Social {
-    discord: Option<String>,
-    youtube: Option<String>,
-    twitch: Option<String>,
-    twitter: Option<String>,
-    website: Option<String>,
-    mixer: Option<String>,
-    facebook: Option<String>,
+    pub discord: Option<String>,
+    pub youtube: Option<String>,
+    pub twitch: Option<String>,
+    pub twitter: Option<String>,
+    pub website: Option<String>,
+    pub mixer: Option<String>,
+    pub facebook: Option<String>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct User {
-    id: u64,
-    username: String,
-    slug: String,
-    url: String,
-    avatar: Avatar,
-    about: Option<String>,
+    pub id: u64,
+    pub username: String,
+    pub slug: String,
+    pub url: String,
+    pub avatar: Avatar,
+    pub about: Option<String>,
     #[serde(rename = "totalAmountRaised")]
-    total_amount_raised: f64,
-    social: Social,
+    pub total_amount_raised: f64,
+    pub social: Social,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct UserSummary {
-    id: u64,
-    username: String,
-    slug: String,
-    url: String,
-    avatar: Avatar,
+    pub id: u64,
+    pub username: String,
+    pub slug: String,
+    pub url: String,
+    pub avatar: Avatar,
 }
 
 pub struct UserBuilder {

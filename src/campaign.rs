@@ -17,10 +17,10 @@ pub struct Donation {
 
 #[derive(Deserialize, Debug)]
 pub struct Avatar {
-    alt: String,
-    src: String,
-    height: u64,
-    width: u64,
+    pub alt: String,
+    pub src: String,
+    pub height: u64,
+    pub width: u64,
 }
 
 #[derive(Deserialize, Debug)]
