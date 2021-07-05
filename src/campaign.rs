@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 
 use crate::{client::{ClientInner, ClientResponse}, paginator::Paginator, user::UserSummary};
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Donation {
     pub id: u64,
     pub amount: f64,
@@ -15,7 +15,7 @@ pub struct Donation {
     pub completed_at: u64,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Avatar {
     pub alt: String,
     pub src: String,
@@ -23,7 +23,7 @@ pub struct Avatar {
     pub width: u64,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Campaign {
     pub id: u64,
     pub name: String,

@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 
 use crate::{campaign::Campaign, client::{ClientInner, ClientResponse}};
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Avatar {
     pub alt: String,
     pub src: String,
@@ -12,7 +12,7 @@ pub struct Avatar {
     pub width: u64,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Social {
     pub discord: Option<String>,
     pub youtube: Option<String>,
@@ -23,7 +23,7 @@ pub struct Social {
     pub facebook: Option<String>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct User {
     pub id: u64,
     pub username: String,
@@ -36,7 +36,7 @@ pub struct User {
     pub social: Social,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct UserSummary {
     pub id: u64,
     pub username: String,
